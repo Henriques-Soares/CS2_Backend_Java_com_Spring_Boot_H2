@@ -1,24 +1,43 @@
-# Challenge Sprint 3 – Backend (Java + Spring Boot + H2)
+# 🧠 Digital Twin Sensores – Sprint 4
+### Backend – Spring Boot 3.5 | PostgreSQL | Flyway | JWT
+
+---
 
 ## 👥 Integrantes
-- Henriques Paulo da Silva Soares | RM551033
-- Guilherme de Souza Pereira | RM552551
-- Laís de Fátima Silva Gonçalves | RM98851
-- João Vítor Estella de França | RM552479
-- Lucas Ramos Coelho | RM551975
+| Nome | RM |
+|------|----|
+| Henriques Paulo da Silva Soares | **551033** |
+| Guilherme de Souza Pereira | **552551** |
+| Laís de Fátima Silva Gonçalves | **98851** |
+| João Vítor Estella de França | **552479** |
+| Lucas Ramos Coelho | **551975** |
 
 ---
 
-## 🚀 Descrição
-Este é o backend do projeto **Digital Twin Sensores**, desenvolvido em **Spring Boot** com banco **H2**.
+## 🚀 Descrição do Projeto
+O **Digital Twin Sensores** é um sistema voltado à simulação e monitoramento de sensores industriais, integrando backend em **Spring Boot** com frontend mobile em **React Native / Expo**.
 
-O backend fornece a API REST que o aplicativo mobile (React Native / Expo) consome para listar sensores, consultar histórico e registrar novas leituras.
+Nesta **Sprint 4**, o backend foi evoluído com foco em **escalabilidade e segurança**, realizando:
+
+- Migração da persistência de **H2** para **PostgreSQL**;
+- Controle de versões do banco via **Flyway**;
+- Implementação de **autenticação JWT**;
+- Habilitação de **CORS** para integração com o aplicativo mobile.
 
 ---
 
-## ⚙️ Como rodar o backend
+## ⚙️ Tecnologias Utilizadas
+- **Java 17 / Spring Boot 3.5**
+- **PostgreSQL 16**
+- **Flyway 11.10**
+- **Spring Security + JWT (JJWT 0.11.5)**
+- **Docker & Docker Compose**
+- **Maven 3.9+**
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/Henriques-Soares/CS2_Backend_Java_com_Spring_Boot_H2.git
-   cd CS2_Backend_Java_com_Spring_Boot_H2
+---
+
+## 🐳 Subindo o Banco de Dados
+Certifique-se de ter o **Docker Desktop** ativo e, na raiz do projeto, execute:
+
+```bash
+docker compose up -d

@@ -2,14 +2,16 @@ package br.com.digitaltwin.sensores.controller;
 
 import br.com.digitaltwin.sensores.model.Reading;
 import br.com.digitaltwin.sensores.repository.ReadingRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/readings")
+@RequestMapping("/api")
 public class ReadingController {
 
     private final ReadingRepository repository;
@@ -18,25 +20,25 @@ public class ReadingController {
         this.repository = repository;
     }
 
-    // GET /api/readings -> todas as leituras ordenadas (ASC) por timestamp
-    @GetMapping
-    public List<Reading> listAll() {
-        return repository.findAllByOrderByTimestampAsc();
+    // GET /api/readings  -> todas as leituras, ordenadas por timestampUtc
+    @GetMapping("/readings")
+    public List<Reading> getAll() {
+        return repository.findAllByOrderByTimestampUtcAsc();
     }
 
-    // GET /api/readings/sensor/{sensorId} -> leituras do sensor ordenadas (ASC)
-    @GetMapping("/sensor/{sensorId}")
-    public List<Reading> listBySensor(@PathVariable String sensorId) {
-        return repository.findBySensorIdOrderByTimestampAsc(sensorId);
+    // GET /api/readings/{sensorId} -> leituras de um sensor, ordenadas por timestampUtc
+    @GetMapping("/readings/{sensorId}")
+    public List<Reading> getBySensor(@PathVariable String sensorId) {
+        return repository.findBySensorIdOrderByTimestampUtcAsc(sensorId);
     }
 
-    // POST /api/readings
-    // Body esperado: { "sensorId": "S-001", "value": 23.5, "timestamp": "2025-09-24T21:33:00" (opcional) }
-    @PostMapping
-    public Reading create(@RequestBody Reading reading) {
-        if (reading.getTimestamp() == null) {
-            reading.setTimestamp(LocalDateTime.now());
+    // POST /api/readings -> cria leitura (se timestampUtc vier null, seta agora em UTC)
+    @PostMapping("/readings")
+    public ResponseEntity<Reading> create(@RequestBody Reading reading) {
+        if (reading.getTimestampUtc() == null) {
+            reading.setTimestampUtc(LocalDateTime.now(ZoneOffset.UTC));
         }
-        return repository.save(reading);
+        Reading saved = repository.save(reading);
+        return ResponseEntity.created(URI.create("/api/readings/" + saved.getId())).body(saved);
     }
 }

@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: dtwin-postgres
+    environment:
+      POSTGRES_DB: dtwin
+      POSTGRES_USER: dtwin
+      POSTGRES_PASSWORD: dtwin
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dtwin -d dtwin"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - dtwin_pg_data:/var/lib/postgresql/data
+
+volumes:
+  dtwin_pg_data:

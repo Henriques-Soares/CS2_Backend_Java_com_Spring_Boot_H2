@@ -1,0 +1,39 @@
+spring:
+    application:
+        name: digital-twin-sensores
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/dtwin
+        username: dtwin
+        password: dtwin
+        driver-class-name: org.postgresql.Driver
+
+    jpa:
+        hibernate:
+            ddl-auto: validate          # Flyway cuida do schema; Hibernate só valida
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+        open-in-view: false
+
+    flyway:
+        locations: classpath:db/migration
+
+app:
+    security:
+        jwt:
+            secret: "super-ultra-secret-key-256bits-long-strong-value-change-this-now-2025!"
+            expiration: 86400
+
+cors:
+    allowed-origins: "http://localhost:5173,http://localhost:3000,http://localhost:8081,exp://localhost"
+    allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+    allowed-headers: "*"
+    allow-credentials: true
+
+logging:
+    level:
+        org.springframework.security: info
+        org.hibernate.SQL: debug
+        org.hibernate.orm.jdbc.bind: trace
